@@ -2,7 +2,7 @@
 import './layout.css';
 import Header from './header/index.jsx';
 import Footer from './footer/index.jsx';
-import Modal from '../Modal/index.jsx';
+import Modal from '../modal/index.jsx';
 import { useState } from 'react';
 
 const Layout = ({ investment, setInvestment, refetch = () => { }, children }) => {
