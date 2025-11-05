@@ -125,11 +125,11 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
                 </div>
             </div>
 
-            <div className="download-btn-container">
+            {/* <div className="download-btn-container">
                 <button className="download-btn" onClick={handleDownload}>
                     ⬇️ Download Summary
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 }

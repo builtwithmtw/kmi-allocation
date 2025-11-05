@@ -20,9 +20,6 @@ export default function Custom() {
     const [showModal, setShowModal] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
 
-    console.log(stocks.length);
-
-
     return (
         <Layout setInvestment={setInvestment} investment={investment} refetch={refetch}>
 
