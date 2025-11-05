@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./ShareSummaryWidget.css";
+import { toPng } from "html-to-image";
 
 export default function ShareSummaryWidget({ allocation, investment, localStocks, onClose }) {
+    const cardRef = useRef(null);
     if (!allocation || !localStocks) return null;
 
-    // Merge allocation results with stock type from localStocks
+
+
     const enrichedResults = allocation.results.map((r) => {
         const match = localStocks.find(
             (s) => s.name.toLowerCase() === r.name.toLowerCase()
@@ -12,11 +15,9 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
         return { ...r, type: match?.type || "unknown" };
     });
 
-    // Filter based on stock type
     const dividendStocks = enrichedResults.filter((r) => r.type === "dividend");
     const capitalGainStocks = enrichedResults.filter((r) => r.type === "capital_gain");
 
-    // Calculate summaries
     const dividend = dividendStocks.reduce((sum, r) => sum + r.finalAmount, 0);
     const capitalGain = capitalGainStocks.reduce((sum, r) => sum + r.finalAmount, 0);
     const invested = allocation.finalTotal || 0;
@@ -26,53 +27,108 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
     const dividendPct = total ? ((dividend / total) * 100).toFixed(1) : 0;
     const capitalGainPct = total ? ((capitalGain / total) * 100).toFixed(1) : 0;
 
+    const handleDownload = async () => {
+        const node = cardRef.current;
+        if (!node) return;
+
+        try {
+            // Fix layout issues for modals
+            node.style.transform = "none";
+            node.style.position = "relative";
+
+            const overlay = document.querySelector(".summary-overlay");
+            overlay.style.background = "transparent";
+
+            const dataUrl = await toPng(node, {
+                backgroundColor: "#ffffff",
+                cacheBust: true,
+                pixelRatio: 2, // HD image
+                style: {
+                    transform: "none",
+                    position: "relative",
+                    boxShadow: "none",
+                },
+                filter: (n) => !(n.classList?.contains("close-btn")), // hide close icon
+            });
+
+            const link = document.createElement("a");
+            link.download = "portfolio-summary.png";
+            link.href = dataUrl;
+            link.click();
+        } catch (error) {
+            console.error("❌ Image generation failed:", error);
+            alert("Image generation failed, check console.");
+        }
+    };
+
     return (
-        <div className="share-summary-overlay">
-            <div className="share-summary-widget">
+        <div className="summary-overlay" id="summary-card">
+            <div className="summary-card elegant" ref={cardRef}>
                 <button className="close-btn" onClick={onClose}>✕</button>
-                <h3>Portfolio Summary</h3>
 
-                <div className="summary-header">
-                    <p className="summary-stats"><strong>Investment Amount:</strong> {investment.toLocaleString()} PKR</p>
-                    <p className="summary-stats"><strong>Invested:</strong> {invested.toLocaleString()} PKR</p>
-                    <p className="summary-stats"><strong>Unallocated:</strong> {cashLeft.toLocaleString()} PKR</p>
-                    <p className="summary-stats"><strong>Dividend:</strong> {dividendPct}% ({dividend.toFixed(0)})</p>
-                    <p className="summary-stats"><strong>Capital Gain:</strong> {capitalGainPct}% ({capitalGain.toFixed(0)})</p>
+                <h3 className="summary-title">Portfolio Summary</h3>
+
+                <div className="investment-info">
+                    <div><span>💰 Investment</span><strong>{investment.toLocaleString()} </strong></div>
+                    <div><span>📦 Invested</span><strong>{invested.toLocaleString()} </strong></div>
+                    <div><span>💤 Unused</span><strong>{cashLeft.toLocaleString()} </strong></div>
                 </div>
 
-                <div className="stocks-columns">
-                    <div className="stocks-column">
-                        <h4>💸 Dividend Stocks</h4>
-                        {dividendStocks.length > 0 ? (
-                            dividendStocks.map((s) => (
-                                <div className="stock-item" key={s.name}>
-                                    <span className="stock-name">
-                                        <img src={s.logo} alt="" width={20} /> {s.name}
-                                    </span>
-                                    <span className="stock-shares">{s.shares} shares</span>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="empty-text">No dividend stocks</p>
-                        )}
-                    </div>
+                <div className="split-bar">
+                    <div className="bar dividend" style={{ width: `${dividendPct}%` }}></div>
+                    <div className="bar capital" style={{ width: `${capitalGainPct}%` }}></div>
+                </div>
 
-                    <div className="stocks-column">
-                        <h4>📈 Capital Gain Stocks</h4>
-                        {capitalGainStocks.length > 0 ? (
-                            capitalGainStocks.map((s) => (
-                                <div className="stock-item" key={s.name}>
-                                    <span className="stock-name">
-                                        <img src={s.logo} alt="" width={20} /> {s.name}
-                                    </span>
-                                    <span className="stock-shares">{s.shares} shares</span>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="empty-text">No capital gain stocks</p>
-                        )}
+                <div className="percentages">
+                    <div>
+                        <span>💸 Dividend</span>
+                        <strong>{dividendPct}%</strong>
+                        <small>{dividend.toLocaleString()} PKR</small>
+                    </div>
+                    <div>
+                        <span>📈 Capital Gain</span>
+                        <strong>{capitalGainPct}%</strong>
+                        <small>{capitalGain.toLocaleString()} PKR</small>
                     </div>
                 </div>
+
+                <div className="stocks-section">
+                    <div>
+
+                        <div className="stock-tags">
+                            {dividendStocks.length ? (
+                                dividendStocks.map((s) => (
+                                    <span className="stock-tag" key={s.name}>
+                                        <img src={s.logo} alt="" crossOrigin="anonymous" /> {s.name} <b>{s.shares}</b>
+                                    </span>
+                                ))
+                            ) : (
+                                <p className="empty">–</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div>
+
+                        <div className="stock-tags">
+                            {capitalGainStocks.length ? (
+                                capitalGainStocks.map((s) => (
+                                    <span className="stock-tag" key={s.name}>
+                                        <img src={s.logo} alt="" /> {s.name} <b>{s.shares}</b>
+                                    </span>
+                                ))
+                            ) : (
+                                <p className="empty">–</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="download-btn-container">
+                <button className="download-btn" onClick={handleDownload}>
+                    ⬇️ Download Summary
+                </button>
             </div>
         </div>
     );

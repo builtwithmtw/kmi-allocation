@@ -78,3 +78,51 @@
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
+
+.portfolio-link {
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  color: white;
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 0.9rem;
+}
+
+.portfolio-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-link {
+  text-decoration: none;
+}
+
+.about-btn {
+  position: fixed;
+  top: 20%;
+  left: 27%;
+  border: 0px solid #cbd5e1;
+  border-radius: 8px;
+  /* color: #0f172a; */
+  padding: 0px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  color: #2563eb;
+}
+
+.about-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6;
+  color: #2563eb;
+}

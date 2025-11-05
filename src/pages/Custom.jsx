@@ -19,11 +19,19 @@ export default function Custom() {
 
     const [showModal, setShowModal] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
+
+    console.log(stocks.length);
+
+
     return (
         <Layout setInvestment={setInvestment} investment={investment} refetch={refetch}>
 
             <div className="actions">
-                <Button text="Generate Summary" disabled={Boolean(stocks.length)} onClick={() => setShowSummary(true)} />
+                <Button
+                    text="Generate Summary"
+                    disabled={stocks.length === 0}
+                    onClick={() => setShowSummary(true)}
+                />
                 <Button text="Add Stock" onClick={() => setShowModal(true)} />
             </div>
             {loading && <Loader />}
