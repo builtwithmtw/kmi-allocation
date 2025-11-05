@@ -1,0 +1,64 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* Body */
+body {
+  height: 100vh;
+  width: 1292px;
+  margin: auto;
+  background: radial-gradient(circle at top left, #f9fafb, #e2e8f0);
+  color: #1e293b;
+  overflow: hidden;
+}
+
+/* Totals */
+.totals {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+/* Summary Row */
+.summary-row {
+  background: #f8fafc;
+  border-top: 2px solid #e2e8f0;
+}
+
+.summary-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 10px;
+}
+
+.summary-inline p {
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+#copySummary {
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.25s;
+}
+
+#copySummary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.35);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
