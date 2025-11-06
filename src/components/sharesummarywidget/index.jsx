@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import "./ShareSummaryWidget.css";
-import { toPng } from "html-to-image";
+// import { toPng } from "html-to-image";
 
 export default function ShareSummaryWidget({ allocation, investment, localStocks, onClose }) {
     const cardRef = useRef(null);
@@ -27,39 +27,39 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
     const dividendPct = total ? ((dividend / total) * 100).toFixed(1) : 0;
     const capitalGainPct = total ? ((capitalGain / total) * 100).toFixed(1) : 0;
 
-    const handleDownload = async () => {
-        const node = cardRef.current;
-        if (!node) return;
+    // const handleDownload = async () => {
+    //     const node = cardRef.current;
+    //     if (!node) return;
 
-        try {
-            // Fix layout issues for modals
-            node.style.transform = "none";
-            node.style.position = "relative";
+    //     try {
+    //         // Fix layout issues for modals
+    //         node.style.transform = "none";
+    //         node.style.position = "relative";
 
-            const overlay = document.querySelector(".summary-overlay");
-            overlay.style.background = "transparent";
+    //         const overlay = document.querySelector(".summary-overlay");
+    //         overlay.style.background = "transparent";
 
-            const dataUrl = await toPng(node, {
-                backgroundColor: "#ffffff",
-                cacheBust: true,
-                pixelRatio: 2, // HD image
-                style: {
-                    transform: "none",
-                    position: "relative",
-                    boxShadow: "none",
-                },
-                filter: (n) => !(n.classList?.contains("close-btn")), // hide close icon
-            });
+    //         const dataUrl = await toPng(node, {
+    //             backgroundColor: "#ffffff",
+    //             cacheBust: true,
+    //             pixelRatio: 2, // HD image
+    //             style: {
+    //                 transform: "none",
+    //                 position: "relative",
+    //                 boxShadow: "none",
+    //             },
+    //             filter: (n) => !(n.classList?.contains("close-btn")), // hide close icon
+    //         });
 
-            const link = document.createElement("a");
-            link.download = "portfolio-summary.png";
-            link.href = dataUrl;
-            link.click();
-        } catch (error) {
-            console.error("❌ Image generation failed:", error);
-            alert("Image generation failed, check console.");
-        }
-    };
+    //         const link = document.createElement("a");
+    //         link.download = "portfolio-summary.png";
+    //         link.href = dataUrl;
+    //         link.click();
+    //     } catch (error) {
+    //         console.error("❌ Image generation failed:", error);
+    //         alert("Image generation failed, check console.");
+    //     }
+    // };
 
     return (
         <div className="summary-overlay" id="summary-card">
@@ -99,7 +99,7 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
                             {dividendStocks.length ? (
                                 dividendStocks.map((s) => (
                                     <span className="stock-tag" key={s.name}>
-                                        <img src={s.logo} alt="" crossOrigin="anonymous" /> {s.name} <b>{s.shares}</b>
+                                        <img src={s.logo} alt="" /> {s.name} <b>{s.shares}</b>
                                     </span>
                                 ))
                             ) : (

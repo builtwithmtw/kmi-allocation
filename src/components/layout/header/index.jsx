@@ -12,20 +12,23 @@ const Header = ({ investment, setInvestment, refetch = () => { }, setInfoModal =
         </Link>
 
         {/* ℹ️ About Us Icon */}
-        <button className="about-btn" onClick={() => setInfoModal(true)} title="About Us">
-          <InfoIcon size={20} strokeWidth={2} />
-        </button>
+
       </div>
 
       <div className="actions">
+        <button className="about-btn" onClick={() => setInfoModal(true)} >
+          About us
+        </button>
         {/* ✨ Custom Portfolio */}
         <Link
           to="/custom"
           className="portfolio-link"
           title="View Your Custom Portfolio"
         >
-          ✨ My Portfolio
+          ✨  Portfolio
         </Link>
+
+
 
         <span>Enter Amount:</span>
         <input

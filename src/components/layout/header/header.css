@@ -106,23 +106,20 @@
 }
 
 .about-btn {
-  position: fixed;
-  top: 20%;
-  left: 27%;
-  border: 0px solid #cbd5e1;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  color: white;
+  text-decoration: none;
+  padding: 12px;
   border-radius: 8px;
-  /* color: #0f172a; */
-  padding: 0px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s ease;
-  color: #2563eb;
+  border: 0px;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 0.9rem;
+
 }
 
 .about-btn:hover {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: #3b82f6;
-  color: #2563eb;
+  transform: scale(1.05);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
 }
