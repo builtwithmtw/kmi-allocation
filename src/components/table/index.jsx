@@ -1,7 +1,12 @@
-import React from "react";
-import "./table.css";
+import { Edit3, Trash2 } from "lucide-react"; // ✅ Lucide icons
 
-const Table = ({ rows = [], summary }) => {
+const Table = ({
+  rows = [],
+  summary,
+  custom = false,
+  onEdit = () => { },
+  onDelete = () => { },
+}) => {
   return (
     <div className="table-card">
       <table id="topTable">
@@ -13,12 +18,17 @@ const Table = ({ rows = [], summary }) => {
             <th>Normalized (%)</th>
             <th>Amount (PKR)</th>
             <th>Shares</th>
+            {custom && <th>Actions</th>}
           </tr>
         </thead>
+
         <tbody>
           {rows.length === 0 ? (
             <tr>
-              <td colSpan="6" style={{ textAlign: "center", padding: "10px" }}>
+              <td
+                colSpan={custom ? "7" : "6"}
+                style={{ textAlign: "center", padding: "10px" }}
+              >
                 No data available
               </td>
             </tr>
@@ -45,6 +55,40 @@ const Table = ({ rows = [], summary }) => {
                 <td>{r.normalizedWeight?.toFixed(2)}</td>
                 <td>{r.finalAmount?.toFixed(0)}</td>
                 <td>{r.shares}</td>
+
+                {custom && (
+                  <td className="action-buttons" style={{ display: "flex", gap: "8px" }}>
+                    <button
+                      className="edit-btn"
+                      onClick={() => onEdit(r)}
+                      title="Edit Stock"
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+
+                        color: 'green'
+                      }}
+                    >
+                      <Edit3 size={15} strokeWidth={1.8} />
+                    </button>
+
+                    <button
+                      className="delete-btn"
+                      onClick={() => onDelete(r)}
+                      title="Delete Stock"
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+
+                        color: 'red'
+                      }}
+                    >
+                      <Trash2 size={15} strokeWidth={1.8} />
+                    </button>
+                  </td>
+                )}
               </tr>
             ))
           )}
@@ -58,16 +102,14 @@ const Table = ({ rows = [], summary }) => {
               <td>{summary?.topTotalNormalizedWeights?.toFixed(0)}%</td>
               <td>{summary?.topTotalAmount?.toFixed(0)}</td>
               <td>{summary?.topTotalShares?.toFixed(0)}</td>
+              {custom && <td></td>}
             </tr>
             <tr className="summary-row">
-              <td colSpan="5">
+              <td colSpan={custom ? "7" : "6"}>
                 <div className="summary-inline">
-                  <p>
-                    Invested: PKR {summary?.finalTotal.toFixed(0)}
-                  </p>
-                  <p>
-                    Unallocated Cash: PKR {summary?.cashLeft.toFixed(0)}
-                  </p>
+                  <p>Invested:  {summary?.finalTotal?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+                  <p>Unallocated :  {summary?.cashLeft?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+
                 </div>
               </td>
             </tr>

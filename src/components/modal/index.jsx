@@ -1,5 +1,3 @@
-import './modal.css';
-
 export const Modal = ({ setInfoModal = () => { } }) => {
   return (
     <div id="infoModal" class="modal-overlay">
@@ -7,8 +5,7 @@ export const Modal = ({ setInfoModal = () => { } }) => {
         <span class="close-btn" onClick={() => setInfoModal(false)} id="closeModal">&times;</span>
         <h3>About</h3>
         <p>
-          This tool intelligently distributes your total investment among the
-          top 15 stocks based on their market weights while ensuring maximum
+          This tool intelligently distributes your total investment among stocks based on their market weights while ensuring maximum
           utilization of your funds and integer-only share purchases (no
           fractional shares).
         </p>

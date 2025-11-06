@@ -1,5 +1,3 @@
-import './loader.css'
-
 const Loader = () => {
     return (
         <div id="loaderOverlay" class="loader-overlay" >

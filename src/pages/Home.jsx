@@ -8,7 +8,7 @@ import Loader from '../components/loader/index.jsx';
 
 export default function KMI30Dashboard() {
     const { companies, loading, refetch } = useKMI30Companies();
-    const [investment, setInvestment] = useState(1000000);
+    const [investment, setInvestment] = useState(100000);
     const allocations = useAllocations(companies, investment);
 
 

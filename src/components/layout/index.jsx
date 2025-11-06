@@ -1,5 +1,3 @@
-
-import './layout.css';
 import Header from './header/index.jsx';
 import Footer from './footer/index.jsx';
 import Modal from '../modal/index.jsx';

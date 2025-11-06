@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import "./ShareSummaryWidget.css";
+import { useRef } from "react";
+
 // import { toPng } from "html-to-image";
 
 export default function ShareSummaryWidget({ allocation, investment, localStocks, onClose }) {
@@ -18,48 +18,14 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
     const dividendStocks = enrichedResults.filter((r) => r.type === "dividend");
     const capitalGainStocks = enrichedResults.filter((r) => r.type === "capital_gain");
 
-    const dividend = dividendStocks.reduce((sum, r) => sum + r.finalAmount, 0);
-    const capitalGain = capitalGainStocks.reduce((sum, r) => sum + r.finalAmount, 0);
+    const dividend = Math.round(dividendStocks.reduce((sum, r) => sum + r.finalAmount, 0));
+    const capitalGain = Math.round(capitalGainStocks.reduce((sum, r) => sum + r.finalAmount, 0));
     const invested = allocation.finalTotal || 0;
     const cashLeft = allocation.cashLeft || 0;
     const total = dividend + capitalGain;
 
     const dividendPct = total ? ((dividend / total) * 100).toFixed(1) : 0;
     const capitalGainPct = total ? ((capitalGain / total) * 100).toFixed(1) : 0;
-
-    // const handleDownload = async () => {
-    //     const node = cardRef.current;
-    //     if (!node) return;
-
-    //     try {
-    //         // Fix layout issues for modals
-    //         node.style.transform = "none";
-    //         node.style.position = "relative";
-
-    //         const overlay = document.querySelector(".summary-overlay");
-    //         overlay.style.background = "transparent";
-
-    //         const dataUrl = await toPng(node, {
-    //             backgroundColor: "#ffffff",
-    //             cacheBust: true,
-    //             pixelRatio: 2, // HD image
-    //             style: {
-    //                 transform: "none",
-    //                 position: "relative",
-    //                 boxShadow: "none",
-    //             },
-    //             filter: (n) => !(n.classList?.contains("close-btn")), // hide close icon
-    //         });
-
-    //         const link = document.createElement("a");
-    //         link.download = "portfolio-summary.png";
-    //         link.href = dataUrl;
-    //         link.click();
-    //     } catch (error) {
-    //         console.error("❌ Image generation failed:", error);
-    //         alert("Image generation failed, check console.");
-    //     }
-    // };
 
     return (
         <div className="summary-overlay" id="summary-card">
@@ -124,12 +90,6 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
                     </div>
                 </div>
             </div>
-
-            {/* <div className="download-btn-container">
-                <button className="download-btn" onClick={handleDownload}>
-                    ⬇️ Download Summary
-                </button>
-            </div> */}
         </div>
     );
 }

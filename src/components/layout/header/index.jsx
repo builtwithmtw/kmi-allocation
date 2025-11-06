@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
-import { InfoIcon } from "lucide-react"; // 🧩 Modern React icon library
-import "./header.css";
+import Button from "../../button";
 
-const Header = ({ investment, setInvestment, refetch = () => { }, setInfoModal = () => { } }) => {
+const Header = ({
+  investment,
+  setInvestment,
+  refetch = () => { },
+  setInfoModal = () => { },
+}) => {
   return (
     <header className="header">
       <div className="left-section">
@@ -10,27 +14,17 @@ const Header = ({ investment, setInvestment, refetch = () => { }, setInfoModal =
         <Link to="/" className="home-link">
           <h2>KMI Investment Allocation</h2>
         </Link>
-
-        {/* ℹ️ About Us Icon */}
-
+        <Button onClick={() => setInfoModal(true)} text="About" style={{ height: 'auto', fontSize: '10px', padding: '6px' }} />
       </div>
 
       <div className="actions">
-        <button className="about-btn" onClick={() => setInfoModal(true)} >
-          About us
-        </button>
-        {/* ✨ Custom Portfolio */}
-        <Link
-          to="/custom"
-          className="portfolio-link"
-          title="View Your Custom Portfolio"
-        >
-          ✨  Portfolio
+
+
+        <Link className="portfolio-link" to="/custom">
+          Custom Allocation
         </Link>
 
-
-
-        <span>Enter Amount:</span>
+        <span> Amount:</span>
         <input
           id="investment"
           type="number"

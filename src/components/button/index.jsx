@@ -1,6 +1,3 @@
-import React from "react";
-import "./button.css";
-
 const Button = ({ onClick = () => { }, text = "", ...rest }) => {
     return (
         <button
