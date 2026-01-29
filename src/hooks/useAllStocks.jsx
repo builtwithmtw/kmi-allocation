@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { CONSTANTS } from "../constants";
 
 export function useAllStocks() {
     const [stocks, setStocks] = useState([]);
@@ -8,7 +9,7 @@ export function useAllStocks() {
     const fetchStocks = useCallback(async () => {
         const targetUrl =
             "https://beta-restapi.sarmaaya.pk/api/indices/KSE100/companies?page=1&limit=500";
-        const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(targetUrl);
+        const proxyUrl = CONSTANTS.proxyUrl + encodeURIComponent(targetUrl);
 
         setLoading(true);
         setError(null);

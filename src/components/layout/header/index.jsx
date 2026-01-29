@@ -19,10 +19,15 @@ const Header = ({
 
       <div className="actions">
 
+        <Link className="portfolio-link" to="/kse100">
+          KSE100
+        </Link>
 
         <Link className="portfolio-link" to="/custom">
           Custom Allocation
         </Link>
+
+
 
         <span> Amount:</span>
         <input

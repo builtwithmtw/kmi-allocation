@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { CONSTANTS } from "../constants";
 
-export function useKMI30Companies() {
+export function useKSE100Companies() {
     const [companies, setCompanies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -9,7 +9,7 @@ export function useKMI30Companies() {
     // ✅ useCallback ensures stable function reference
     const fetchCompanies = useCallback(async () => {
         const targetUrl =
-            "https://beta-restapi.sarmaaya.pk/api/indices/KMI30/companies?page=1&limit=100";
+            "https://beta-restapi.sarmaaya.pk/api/indices/KSE100/companies?page=1&limit=100";
         const proxyUrl = CONSTANTS.proxyUrl + encodeURIComponent(targetUrl);
 
         setLoading(true);

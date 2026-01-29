@@ -117,7 +117,7 @@ export function AddStockModal({
                     <select
                         className="modal-input"
                         value={type}
-                        disabled={isEdit}
+                        disabled={editStock}
                         onChange={(e) => setType(e.target.value)}
                     >
                         <option value="dividend">Dividend</option>
