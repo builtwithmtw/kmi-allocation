@@ -1,3 +1,3 @@
 export const CONSTANTS = {
-    proxyUrl: "https://corsproxy.io/?url="
+    proxyUrl: "https://api.cors.lol/?url="
 }
