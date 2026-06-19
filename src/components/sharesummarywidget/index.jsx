@@ -15,17 +15,17 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
         return { ...r, type: match?.type || "unknown" };
     });
 
-    const dividendStocks = enrichedResults.filter((r) => r.type === "dividend");
-    const capitalGainStocks = enrichedResults.filter((r) => r.type === "capital_gain");
+    const coreStocks = enrichedResults.filter((r) => r.type === "core");
+    const supportingCastStocks = enrichedResults.filter((r) => r.type === "supporting_cast");
 
-    const dividend = Math.round(dividendStocks.reduce((sum, r) => sum + r.finalAmount, 0));
-    const capitalGain = Math.round(capitalGainStocks.reduce((sum, r) => sum + r.finalAmount, 0));
+    const core = Math.round(coreStocks.reduce((sum, r) => sum + r.finalAmount, 0));
+    const supportingCast = Math.round(supportingCastStocks.reduce((sum, r) => sum + r.finalAmount, 0));
     const invested = allocation.finalTotal || 0;
     const cashLeft = allocation.cashLeft || 0;
-    const total = dividend + capitalGain;
+    const total = core + supportingCast;
 
-    const dividendPct = total ? ((dividend / total) * 100).toFixed(1) : 0;
-    const capitalGainPct = total ? ((capitalGain / total) * 100).toFixed(1) : 0;
+    const corePct = total ? ((core / total) * 100).toFixed(1) : 0;
+    const supportingCastPct = total ? ((supportingCast / total) * 100).toFixed(1) : 0;
 
     return (
         <div className="summary-overlay" id="summary-card">
@@ -41,20 +41,20 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
                 </div>
 
                 <div className="split-bar">
-                    <div className="bar dividend" style={{ width: `${dividendPct}%` }}></div>
-                    <div className="bar capital" style={{ width: `${capitalGainPct}%` }}></div>
+                    <div className="bar dividend" style={{ width: `${corePct}%` }}></div>
+                    <div className="bar capital" style={{ width: `${supportingCastPct}%` }}></div>
                 </div>
 
                 <div className="percentages">
                     <div>
-                        <span>💸 Dividend</span>
-                        <strong>{dividendPct}%</strong>
-                        <small>{dividend.toLocaleString()} PKR</small>
+                        <span>💎 Core</span>
+                        <strong>{corePct}%</strong>
+                        <small>{core.toLocaleString()} PKR</small>
                     </div>
                     <div>
-                        <span>📈 Capital Gain</span>
-                        <strong>{capitalGainPct}%</strong>
-                        <small>{capitalGain.toLocaleString()} PKR</small>
+                        <span>🌟 Supporting Cast</span>
+                        <strong>{supportingCastPct}%</strong>
+                        <small>{supportingCast.toLocaleString()} PKR</small>
                     </div>
                 </div>
 
@@ -62,8 +62,8 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
                     <div>
 
                         <div className="stock-tags">
-                            {dividendStocks.length ? (
-                                dividendStocks.map((s) => (
+                            {coreStocks.length ? (
+                                coreStocks.map((s) => (
                                     <span className="stock-tag" key={s.name}>
                                         <img src={s.logo} alt="" /> {s.name} <b>{s.shares}</b>
                                     </span>
@@ -77,8 +77,8 @@ export default function ShareSummaryWidget({ allocation, investment, localStocks
                     <div>
 
                         <div className="stock-tags">
-                            {capitalGainStocks.length ? (
-                                capitalGainStocks.map((s) => (
+                            {supportingCastStocks.length ? (
+                                supportingCastStocks.map((s) => (
                                     <span className="stock-tag" key={s.name}>
                                         <img src={s.logo} alt="" /> {s.name} <b>{s.shares}</b>
                                     </span>

@@ -21,6 +21,7 @@ export function useAllocations(companies = [], investment = 0) {
             weight: c.weight,
             price: c.price,
             logo: c.logo,
+            type: c.type,
             shares: 0,
             finalAmount: 0,
         }));

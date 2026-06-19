@@ -12,14 +12,14 @@ export function AddStockModal({
     const [query, setQuery] = useState("");
     const [selected, setSelected] = useState(null);
     const [weight, setWeight] = useState("");
-    const [type, setType] = useState("dividend");
+    const [type, setType] = useState("core");
 
     // 🔹 Pre-fill fields when editing
     useEffect(() => {
         if (editStock) {
             setSelected(editStock);
             setWeight(editStock.weight?.toString() || "");
-            setType(editStock.type || "dividend");
+            setType(editStock.type || "core");
         }
     }, [editStock]);
 
@@ -34,7 +34,7 @@ export function AddStockModal({
 
         if (editStock) {
             // ✏️ Update Mode
-            const updated = { ...editStock, weight: parseFloat(weight) };
+            const updated = { ...editStock, weight: parseFloat(weight), type };
             onUpdate(updated);
         } else {
             // ➕ Add Mode
@@ -112,16 +112,15 @@ export function AddStockModal({
                         onChange={(e) => setWeight(e.target.value)}
                     />
 
-                    {/* 💹 Type (disabled when editing) */}
+                    {/* 💹 Type */}
                     <label>Type</label>
                     <select
                         className="modal-input"
                         value={type}
-                        disabled={editStock}
                         onChange={(e) => setType(e.target.value)}
                     >
-                        <option value="dividend">Dividend</option>
-                        <option value="capital_gain">Capital Gain</option>
+                        <option value="core">Core</option>
+                        <option value="supporting_cast">Supporting Cast</option>
                     </select>
 
                     <div className="modal-actions">

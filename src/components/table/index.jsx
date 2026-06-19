@@ -53,6 +53,7 @@ const Table = ({
           <tr>
             {custom && <th style={{ width: "40px" }}></th>}
             <th>Equity</th>
+            {custom && <th>Type</th>}
             <th>Price (PKR)</th>
             <th>Weight (%)</th>
             <th>Normalized (%)</th>
@@ -66,7 +67,7 @@ const Table = ({
           {rows.length === 0 ? (
             <tr>
               <td
-                colSpan={custom ? "8" : "6"}
+                colSpan={custom ? "9" : "6"}
                 style={{ textAlign: "center", padding: "10px" }}
               >
                 No data available
@@ -115,6 +116,7 @@ const Table = ({
                   )}
                   {r.name}
                 </td>
+                {custom && <td>{r.type === "core" ? "Core" : "Supporting Cast"}</td>}
                 <td>{r.price?.toFixed(2)}</td>
                 <td>{r.weight?.toFixed(2)}</td>
                 <td>{r.normalizedWeight?.toFixed(2)}</td>
@@ -163,7 +165,7 @@ const Table = ({
           <tfoot>
             <tr className="totals">
               {custom && <td></td>}
-              <td colSpan="2">TOTAL</td>
+              <td colSpan={custom ? "3" : "2"}>TOTAL</td>
               <td>{summary?.topTotalWeights?.toFixed(0)}%</td>
               <td>{summary?.topTotalNormalizedWeights?.toFixed(0)}%</td>
               <td>{summary?.topTotalAmount?.toFixed(0)}</td>
@@ -171,7 +173,7 @@ const Table = ({
               {custom && <td></td>}
             </tr>
             <tr className="summary-row">
-              <td colSpan={custom ? "8" : "6"}>
+              <td colSpan={custom ? "9" : "6"}>
                 <div className="summary-inline">
                   <p>Invested:  {summary?.finalTotal?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
                   <p>Unallocated :  {summary?.cashLeft?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
