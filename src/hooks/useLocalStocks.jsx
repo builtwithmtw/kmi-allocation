@@ -79,6 +79,14 @@ export function useLocalStocks() {
         reader.readAsText(file);
     };
 
+    // ✅ Reorder stocks by moving from one index to another
+    const reorderStocks = (fromIndex, toIndex) => {
+        const updated = [...stocks];
+        const [removed] = updated.splice(fromIndex, 1);
+        updated.splice(toIndex, 0, removed);
+        sync(updated);
+    };
+
     // ✅ Expose methods
     return {
         stocks,
@@ -88,6 +96,7 @@ export function useLocalStocks() {
         clearStocks,
         exportStocks,
         importStocks,
+        reorderStocks,
     };
 }
 

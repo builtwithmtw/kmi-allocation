@@ -66,12 +66,18 @@ body {
 .sub-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
 
+.profile-section {
+  flex-shrink: 0;
 }
 
 .actions {
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
 }
 
 .sub-header h3 {

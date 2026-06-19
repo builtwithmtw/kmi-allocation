@@ -1,0 +1,29 @@
+.table-row {
+  user-select: none;
+}
+
+.table-row.dragging {
+  opacity: 0.5;
+}
+
+.table-row.drag-over {
+  background-color: rgba(33, 150, 243, 0.1) !important;
+  border-left: 3px solid #2196f3 !important;
+}
+
+.drag-handle {
+  padding: 8px !important;
+  text-align: center !important;
+  cursor: grab !important;
+  user-select: none !important;
+  transition: opacity 0.2s ease;
+}
+
+.drag-handle:active {
+  cursor: grabbing !important;
+}
+
+.drag-handle svg {
+  display: block;
+  margin: 0 auto;
+}

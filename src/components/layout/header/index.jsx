@@ -27,8 +27,6 @@ const Header = ({
           Custom Allocation
         </Link>
 
-
-
         <span> Amount:</span>
         <input
           id="investment"

@@ -1,4 +1,6 @@
-import { Edit3, Trash2 } from "lucide-react"; // ✅ Lucide icons
+import { Edit3, Trash2, GripVertical } from "lucide-react"; // ✅ Lucide icons
+import { useState } from "react";
+import "./table.css";
 
 const Table = ({
   rows = [],
@@ -6,12 +8,50 @@ const Table = ({
   custom = false,
   onEdit = () => { },
   onDelete = () => { },
+  onReorder = () => { },
 }) => {
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
+
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", e.currentTarget.innerHTML);
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (draggedIndex !== null && draggedIndex !== index) {
+      setDragOverIndex(index);
+    }
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e, index) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (draggedIndex !== null && draggedIndex !== index) {
+      onReorder(draggedIndex, index);
+    }
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
   return (
     <div className="table-card">
       <table id="topTable">
         <thead>
           <tr>
+            {custom && <th style={{ width: "40px" }}></th>}
             <th>Equity</th>
             <th>Price (PKR)</th>
             <th>Weight (%)</th>
@@ -26,7 +66,7 @@ const Table = ({
           {rows.length === 0 ? (
             <tr>
               <td
-                colSpan={custom ? "7" : "6"}
+                colSpan={custom ? "8" : "6"}
                 style={{ textAlign: "center", padding: "10px" }}
               >
                 No data available
@@ -34,7 +74,32 @@ const Table = ({
             </tr>
           ) : (
             rows.map((r, i) => (
-              <tr key={i}>
+              <tr
+                key={i}
+                draggable={custom}
+                onDragStart={(e) => custom && handleDragStart(e, i)}
+                onDragOver={(e) => custom && handleDragOver(e, i)}
+                onDragLeave={handleDragLeave}
+                onDrop={(e) => custom && handleDrop(e, i)}
+                onDragEnd={handleDragEnd}
+                style={{
+                  opacity: draggedIndex === i ? 0.5 : 1,
+                  backgroundColor: dragOverIndex === i ? "rgba(100, 200, 255, 0.15)" : "transparent",
+                  cursor: custom ? "move" : "default",
+                  transition: "background-color 0.15s ease",
+                  borderLeft: dragOverIndex === i ? "3px solid #2196f3" : "3px solid transparent",
+                }}
+              >
+                {custom && (
+                  <td className="drag-handle" style={{
+                    textAlign: "center",
+                    cursor: "grab",
+                    padding: "8px",
+                    userSelect: "none",
+                  }}>
+                    <GripVertical size={16} style={{ opacity: draggedIndex === i ? 1 : 0.4 }} />
+                  </td>
+                )}
                 <td>
                   {r.logo && (
                     <img
@@ -97,6 +162,7 @@ const Table = ({
         {summary && (
           <tfoot>
             <tr className="totals">
+              {custom && <td></td>}
               <td colSpan="2">TOTAL</td>
               <td>{summary?.topTotalWeights?.toFixed(0)}%</td>
               <td>{summary?.topTotalNormalizedWeights?.toFixed(0)}%</td>
@@ -105,7 +171,7 @@ const Table = ({
               {custom && <td></td>}
             </tr>
             <tr className="summary-row">
-              <td colSpan={custom ? "7" : "6"}>
+              <td colSpan={custom ? "8" : "6"}>
                 <div className="summary-inline">
                   <p>Invested:  {summary?.finalTotal?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
                   <p>Unallocated :  {summary?.cashLeft?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
