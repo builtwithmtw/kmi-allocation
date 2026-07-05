@@ -8,7 +8,7 @@ export function useAllStocks() {
 
     const fetchStocks = useCallback(async () => {
         const targetUrl =
-            "https://beta-restapi.sarmaaya.pk/api/indices/KSE100/companies?page=1&limit=500";
+            "https://beta-restapi.sarmaaya.pk/api/indices/ALLSHR/companies?page=1&limit=1000";
         const proxyUrl = CONSTANTS.proxyUrl + encodeURIComponent(targetUrl);
 
         setLoading(true);
